@@ -1,8 +1,9 @@
 "use client";
 
-import { Column, Flex, Heading, Media, SmartLink, Tag, Text } from '@once-ui-system/core';
+import { Column, Flex, Heading, Media, SmartLink, Tag, Text, Row } from '@once-ui-system/core';
 import styles from './Posts.module.scss';
 import { formatDate } from '@/app/utils/formatDate';
+import { DisqusCommentCount } from './Disqus';
 
 interface PostProps {
     post: any;
@@ -50,11 +51,27 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
                         wrap="balance">
                         {post.metadata.title}
                     </Heading>
-                    <Text
-                        variant="label-default-s"
-                        onBackground="neutral-weak">
-                        {formatDate(post.metadata.publishedAt, false)}
-                    </Text>
+                    <Row gap="12" vertical="center">
+                        <Text
+                            variant="label-default-s"
+                            onBackground="neutral-weak">
+                            {formatDate(post.metadata.publishedAt, false)}
+                        </Text>
+                        <Text
+                            variant="label-default-s"
+                            onBackground="neutral-weak">
+                            •
+                        </Text>
+                        <Text
+                            variant="label-default-s"
+                            onBackground="neutral-weak">
+                            <DisqusCommentCount 
+                                id={post.slug}
+                                title={post.metadata.title}
+                                path={`/blog/${post.slug}`}
+                            />
+                        </Text>
+                    </Row>
                     { post.metadata.tag &&
                         <Tag
                             className="mt-12"

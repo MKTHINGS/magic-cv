@@ -5,6 +5,7 @@ import { baseURL, about, blog, person } from "@/resources";
 import { formatDate } from "@/app/utils/formatDate";
 import { getPosts } from "@/app/utils/utils";
 import { Metadata } from 'next';
+import { DisqusComments } from "@/components/blog/Disqus";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "blog", "posts"]);
@@ -85,6 +86,14 @@ export default async function Blog({
           <Column as="article" fillWidth>
             <CustomMDX source={post.content} />
           </Column>
+          
+          {/* Disqus Comments Section */}
+          <DisqusComments 
+            id={post.slug}
+            title={post.metadata.title}
+            path={`/blog/${post.slug}`}
+          />
+          
           <ScrollToHash />
         </Column>
     </Row>
